@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="username">
+  <input type="text" id="password">
+  <button id="submit">提交</button>
+</body>
+<script>
+  Function.prototype.before=function(beforeFn){
+    let _this=this
+    return function(){
+      let ret=beforeFn.apply(this,arguments)
+      if(ret){
+        _this.apply(this,arguments)
+      }
+      
+    }
+  }
+  function submit(){
+    // let username=document.getElementById('username').value
+    // if(!username){
+    //   return alert('用户名没有输入')
+    // }
+    // if(username.length<6){
+    //   return alert('用户名长度不够')
+    // }
+    console.log('提交表单')
+  }
+  let checkNameMoreThanSix=submit.before(function(){
+    let username=document.getElementById('username').value
+    if(username.length<6){
+      return alert('用户名长度不够')
+    }
+    return true
+  })
+  let checkNameNotNull=checkNameMoreThanSix.before(function(){
+    let username=document.getElementById('username').value
+    if(!username||username===""){
+      return alert('用户名没有输入')
+    }
+    return true
+  })
+  
+  document.getElementById('submit').addEventListener('click',checkNameNotNull)
+</script>
+</html>
