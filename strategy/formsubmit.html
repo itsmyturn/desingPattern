@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form id="userForm">
+    用户名：<input type="text" name="username"><br/>
+    密码：<input type="text" name="password"><br/>
+    手机号:<input type="text" name="mobile"><br/>
+    邮箱:<input type="text" name="email"><br/>
+    <input type="submit" value="提交">
+  </form>
+</body>
+<script>
+  let form=document.getElementById('userForm')
+  let validator=(function(){
+    //这是一个规则的数组
+    let rules={
+      notEmpty(val,msg){
+        if(val===''){
+          return msg
+        }
+      },
+      minLength(val,len,msg){
+        if(val===''||val.length<len){
+          return msg
+        }
+      },
+      maxLength(val,len,msg){
+        if(val===''||val.length>len){
+          return msg
+        }
+      },
+      isMobile(val,msg){
+        if(!/1\d{10}/.test(val)){
+          return msg
+        }
+      }
+    }
+    function addRule(name,rule){
+      rules[name]=rule
+    }
+    let checks=[]
+    function add(element,rule){
+      checks.push(function(){
+        let val=element.value
+        let name=rule.shift()
+        rule.unshift(val) //改变了传进来的参数？['value','用户名不能为空']
+        return rules[name]&&rules[name].apply(element,rule)
+      })
+    }
+    function start(){
+      for(var i=0;i<checks.length;i++){
+        let check=checks[i]
+        let msg=check()
+        if(msg){
+          return msg
+        }
+      }
+    }
+    return {
+      addRule,//提供给外部，方便扩展规则
+      add,
+      start
+    }
+  })()
+  validator.addRule('isEmail',function(val,msg){
+    if(!/.*@.*/.test(val)){
+      return msg
+    }
+  })
+  form.onsubmit=function(){
+    validator.add(form.username,['notEmpty','用户名不能为空'])
+    validator.add(form.password,['minLength',6,'密码长度不能少于6位'])
+    validator.add(form.password,['maxLength',8,'密码长度不能大于8位'])
+    validator.add(form.mobile,['isMobile','必须输入合法的手机号'])
+    validator.add(form.email,['isEmail','必须输入合法的邮箱'])
+    let msg=validator.start()
+    if(msg){
+      alert(msg)
+      return false
+    }
+    return true
+  }
+</script>
+</html>

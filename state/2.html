@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+let likeState={
+  render(element){
+    element.innerHTML='赞'
+  }
+}
+let likedState={
+  render(element){
+    element.innerHTML='取消'
+  }
+}
+class Button{
+  constructor(container){
+    this.liked=false //按钮默认的是为点赞的状态
+    this.state=likeState //设置当前的按钮状态为未点
+    this.element=document.createElement('button')
+    container.appendChild(this.element)
+    this.render()//渲染按钮本书
+  }
+  setState(state){
+    this.state=state
+    this.render()
+  }
+  render(){
+    this.state.render(this.element)
+  }
+}
+let button=new Button(document.body)
+button.element.addEventListener('click',function(){
+  button.setState(button.liked?likeState:likedState)
+  button.liked=!button.liked
+})
+</script>
+</html>

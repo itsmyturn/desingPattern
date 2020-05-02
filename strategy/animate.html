@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+  <style>
+    #content{
+      width:100px;
+      height: 100px;
+      background:green;
+    }
+  </style>
+</head>
+<body>
+  <div id="content"></div>
+  <button id="btn">动起来</button>
+</body>
+<script>
+  $('#btn').on('click',function(){
+    $('#content').animate({width:'200px',height:'200px'},1000,'swing')
+  })
+</script>
+</html>
