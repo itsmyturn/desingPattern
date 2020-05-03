@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+   function each(obj,callback){
+    if(Array.isArray(obj)){
+      let length=obj.length
+      for(var i=0;i<length;i++){
+        if(callback.call(obj[i],i,obj[i])===false){
+          break
+        }
+      }
+    }else{
+      for(let i in obj){
+        if(callback.call(obj[i],i,obj[i])===false){
+          break
+        }
+      }
+    }
+    return obj
+  }
+  each(['a','b','c'],function(index,item){
+    console.log(index,item)
+  })
+  each({name:'jack',age:18},function(index,item){
+    console.log(index,item)
+  })
+  // $.each(['a','b','c'],function(index,item){
+  //   console.log(index,item)
+  // })
+  // $.each({name:'jack',age:18},function(index,item){
+  //   console.log(index,item)
+  // })
+  
+</script>
+</html>
