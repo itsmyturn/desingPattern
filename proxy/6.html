@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    li{
+      list-style: none;
+      background: #ccc;
+      margin:5px;
+    }
+    #bgimg{
+      width: 600px;
+      height: 300px;
+      border:1px solid #000;
+      margin:50px auto;
+      overflow:hidden;
+      
+    }
+    #bgimg img{
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <ul id="menu">
+    <li data-src="image/1.jpg">图片1</li>
+    <li data-src="image/2.jpg">图片2</li>
+    <!-- <li >图片1</li>
+    <li >图片2</li> -->
+  </ul>
+  <div id="bgimg"></div>
+</body>
+<script>
+  let menu=document.getElementById('menu')
+  let bgImg=document.getElementById('bgimg')
+  let Background=(function(){
+    let img=new Image()
+    bgImg.appendChild(img)
+    return {
+      setSrc(src){
+        img.src=src+'?ts='+Date.now()
+      }
+    }
+  })()
+  let ProxyBackground=(function(){
+    let img=new Image()
+    console.log('src',this.src)
+    img.onload=function(){
+      console.log('加载完毕')
+      Background.setSrc(this.src)
+    }
+    return {
+      setSrc(src){
+        Background.setSrc('/loading.gif')
+        img.src=src
+      }
+    }
+  })()
+  menu.addEventListener('click',function(event){
+    let src=event.target.dataset.src
+    console.log('点击',src)
+    ProxyBackground.setSrc(src)
+  })
+</script>
+</html>

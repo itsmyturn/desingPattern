@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul id="todoApp">
+    <!-- <li>
+      <input type="checkbox" checked/>
+      吃饭
+    </li> -->
+  </ul>
+</body>
+<script>
+  let todoApp=document.getElementById('todoApp')
+
+  window.onload=function(){
+    fetch('/todos').then(res=>res.json()).then(function(todos){
+      console.log(todos)
+      todoApp.innerHTML=todos.map(item=>{
+        console.log(item)
+        return `<li>
+          <input type="checkbox" value="${item.id}" ${item.completed?"checked":""}/>
+          ${item.text}
+        </li>
+        `
+      }).join('')
+    })
+  
+  function toggle(id){
+    fetch(`/toggle?ids=${id}`).then(res=>res.json).then(function(res){
+
+    })
+  }
+  lazyToggle=(function(){
+    let ids=[]
+    let timer;
+    return function(id){
+      ids.push(id)
+      if(!timer){
+        timer=setTimeout(function(){
+          console.log(ids,'ids')
+          toggle(ids.join(','))
+          ids=[]
+          clearTimeout(timer)
+          timer=null
+        },2000)
+      }
+    }
+  })()
+  todoApp.addEventListener('click',function(event){
+    let id=event.target.value
+    lazyToggle(id)
+  })
+}
+  
+</script>
+</html>

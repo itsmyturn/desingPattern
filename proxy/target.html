@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  window.onload=function(){
+    let query=location.search.substr(1).split('&')
+    console.log('query',query)
+    let fn
+    let args
+    for(let i=0;i<query.length;i++){
+      let item=query[i].split('=')
+      if(item[0]==='callback'){
+        fn=item[1]
+      }else{
+        args=item[1]
+      }
+    }
+    try{
+      eval(`top.${fn}('${args}')`)
+    }catch(e){
+      console.log('e',e)
+    }
+  }
+</script>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #list li{
+      margin:5px;
+      background-color: green;
+    }
+  </style>
+</head>
+<body>
+  <ul id="list">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+</body>
+<script>
+  let list=document.querySelector('#list')
+  list.addEventListener('click',event=>{
+    alert(event.target.innerHTML)
+  })
+</script>
+</html>
