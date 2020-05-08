@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id="canvas" width="1000" height="600"></canvas>
+</body>
+<script>
+  function Position(x,y){
+    this.x=x
+    this.y=y
+  }
+  function CircleColor(color){
+    this.color=color
+  }
+  function Circle(x,y,circleColor){
+    this.position=new Position(x,y)
+    this.circleColor=new CircleColor(circleColor)
+  }
+  Circle.prototype.render=function(){
+    let canvas=document.getElementById('canvas')
+    let ctx=canvas.getContext('2d')
+    ctx.beginPath()
+    ctx.arc(this.position.x,this.position.y,50,0,2*Math.PI)
+    ctx.fillStyle=this.circleColor.color
+    ctx.fill()
+  }
+  let c=new Circle(200,200,'red')
+  c.render()
+</script>
+</html>
